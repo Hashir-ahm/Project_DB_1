@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Management</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vendor Directory</h1>
+        <h2>Registered Vendors</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vendor ID</th>
+                    <th>Name</th>
+                    <th>Contact Info</th>
+                    <th>Service Category</th>
+                    <th>Certifications</th>
+                    <th>Average Rating</th>
+                </tr>
+            </thead>
+            
+            <tbody id="vendor-table">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('/api/vendors')
+    .then(response => response.json())
+    .then(vendors => {
+        const vendorTable = document.getElementById('vendor-table');
+        vendors.forEach(vendor => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${vendor.vendorid}</td>
+                <td>${vendor.vendorname}</td>
+                <td>${vendor.contactinfo}</td>
+                <td>${vendor.servicecategory}</td>
+                <td>${vendor.certifications}</td>
+                <td>${vendor.average_rating}</td>
+                <td>
+                <button onclick="rateVendor(${vendor.vendorid})">Measure Performance</button>
+                </td>
+
+            `;
+            vendorTable.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error fetching vendors:', error));
+
+    function rateVendor(vendorid) {
+    window.location.href = `./vendor-performance?vendorid=${vendorid}`;
+}
+
+
+    </script>
+    
+</body>
+</html>

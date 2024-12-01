@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Departments</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Department Directory</h1>
+        <h2>Registered Departments</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                    <th>Manager Name</th>
+                    <th>Contact Info</th>
+                </tr>
+            </thead>
+            <tbody id="department-table">
+                <!-- Dynamic Data -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch and display department data
+        fetch('/api/departments')
+            .then(response => response.json())
+            .then(departments => {
+                const departmentTable = document.getElementById('department-table');
+                departments.forEach(department => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${department.departmentid}</td>
+                        <td>${department.departmentname}</td>
+                        <td>${department.managername}</td>
+                        <td>${department.contactinfo}</td>
+                    `;
+                    departmentTable.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching departments:', error));
+    </script>
+</body>
+</html>

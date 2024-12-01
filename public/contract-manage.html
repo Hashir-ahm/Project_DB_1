@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Contracts</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Contracts</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Contract ID</th>
+                    <th>Vendor ID</th>
+                    <th>Terms</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody id="contract-table">
+                <!-- Dynamic Data -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('/api/contracts')
+            .then(response => response.json())
+            .then(contracts => {
+                const table = document.getElementById('contract-table');
+                contracts.forEach(contract => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${contract.contractid}</td>
+                        <td>${contract.vendorid}</td>
+                        <td>${contract.contractterms}</td>
+                        <td>${contract.startdate}</td>
+                        <td>${contract.enddate}</td>
+                    `;
+                    table.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching contracts:', error));
+    </script>
+</body>
+</html>

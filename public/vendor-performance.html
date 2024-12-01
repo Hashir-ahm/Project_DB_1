@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Performance</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vendor Performance</h1>
+        <form id="performance-form">
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" required></textarea>
+
+            <button type="submit">Submit Performance</button>
+        </form>
+    </div>
+
+    <script>
+        // Extract vendorid from the query string
+        const vendorid = new URLSearchParams(window.location.search).get('vendorid');
+
+        // Handle the form submission
+        document.getElementById('performance-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                vendorid: vendorid,
+                rating: formData.get('rating'),
+                feedback: formData.get('feedback')
+            };
+
+            // Send POST request to update performance
+            fetch('/api/vendor-performance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Performance updated successfully!');
+                        window.location.href = '/vendors'; // Redirect to vendor list page
+                    } else {
+                        alert('Error updating performance.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

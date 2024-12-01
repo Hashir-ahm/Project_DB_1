@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Registration</title>
+    <link rel="stylesheet" href="./style/login-signup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vendor Registration</h1>
+        <form id="vendor-registration-form" action="/register-vendor" method="POST">
+            <label for="vendorname">Vendor Name:</label>
+            <input type="text" id="vendorname" name="vendorname" required>
+
+            <label for="contactinfo">Contact Information:</label>
+            <input type="text" id="contactinfo" name="contactinfo" required>
+
+            <label for="servicecategory">Service Category:</label>
+            <input type="text" id="servicecategory" name="servicecategory" required>
+
+            <label for="certifications">Certifications:</label>
+            <textarea id="certifications" name="certifications" required></textarea>
+
+            <button class="button-1" type="submit">Register Vendor</button>
+            <p>Already Registered? <a href="login.html">Login here</a>.</p>
+
+        </form>
+    </div>
+</body>
+</html>

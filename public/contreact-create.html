@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Contract</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Contract</h1>
+        <form id="contract-form" action="/create-contract" method="POST">
+            <label for="vendorid">Vendor ID:</label>
+            <input type="number" id="vendorid" name="vendorid" required>
+
+            <label for="contractterms">Contract Terms:</label>
+            <textarea id="contractterms" name="contractterms" required></textarea>
+
+            <label for="startdate">Start Date:</label>
+            <input type="date" id="startdate" name="startdate" required>
+
+            <label for="enddate">End Date:</label>
+            <input type="date" id="enddate" name="enddate" required>
+
+            <button type="submit">Create Contract</button>
+        </form>
+    </div>
+</body>
+</html>

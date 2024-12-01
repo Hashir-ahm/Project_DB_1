@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Management</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Department Budget Management</h1>
+        <h2>Department Budgets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Budget ID</th>
+                    <th>Department Name</th>
+                    <th>Allocated Amount</th>
+                    <th>Spent Amount</th>
+                    <th>Remaining Amount</th>
+                </tr>
+            </thead>
+            <tbody id="budget-table">
+                <!-- Dynamic Data -->
+            </tbody>
+        </table>
+        
+        <!-- Add Budget Section -->
+        <section id="add-budget">
+            <h2>Add New Budget</h2>
+            <form id="add-budget-form">
+                <label for="departmentid">Department ID:</label>
+                <input type="number" id="departmentid" required><br><br>
+
+                <label for="allocatedamount">Allocated Amount:</label>
+                <input type="number" id="allocatedamount" required><br><br>
+
+                <button type="submit">Add Budget</button>
+            </form>
+            <p id="add-budget-status"></p>
+        </section>
+
+    </div>
+
+    <script>
+        // Function to fetch and display all budgets
+        function fetchBudgets() {
+            fetch('/api/budgets')
+                .then(response => response.json())
+                .then(budgets => {
+                    const budgetTable = document.getElementById('budget-table');
+                    budgetTable.innerHTML = ''; // Clear table before adding data
+
+                    budgets.forEach(budget => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${budget.budgetid}</td>
+                            <td>${budget.departmentname}</td>
+                            <td>${budget.allocatedamount}</td>
+                            <td>${budget.spentamount}</td>
+                            <td>${budget.remainingamount}</td>
+                        `;
+                        budgetTable.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching budgets:', error));
+        }
+
+        // Add new budget
+        document.getElementById('add-budget-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const departmentid = document.getElementById('departmentid').value;
+            const allocatedamount = document.getElementById('allocatedamount').value;
+
+            fetch('/api/add-budget', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ departmentid, allocatedamount })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('add-budget-status').innerText = data;
+                    fetchBudgets(); // Refresh the budget list
+                })
+                .catch(error => console.error('Error adding budget:', error));
+        });
+
+
+        // Fetch budgets on page load
+        fetchBudgets();
+    </script>
+</body>
+</html>

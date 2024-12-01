@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Management</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="user-table">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+    fetch('/api/users')
+        .then(response => response.json())
+        .then(users => {
+            const userTable = document.getElementById('user-table');
+            users.forEach(user => {
+                console.log('Rendering User:', user);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.userid}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <select class="role-select" data-userid="${user.userid}">
+                            <option value="admin" ${user.userrole === 'admin' ? 'selected' : ''}>Admin</option>
+                            <option value="vendor" ${user.userrole === 'vendor' ? 'selected' : ''}>Vendor</option>
+                            <option value="departmenthead" ${user.userrole === 'departmenthead' ? 'selected' : ''}>Department Head</option>
+                            <option value="financemanager" ${user.userrole === 'financemanager' ? 'selected' : ''}>Finance Manager</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button onclick="updateUserRole(${user.userid})">Update Role</button>
+                    </td>
+                `;
+                userTable.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching users:', error));
+
+    function updateUserRole(userid) {
+    console.log(`Triggered update for User ID: ${userid}`);
+
+    const roleSelect = document.querySelector(`.role-select[data-userid="${userid}"]`);
+    if (!roleSelect) {
+        console.error(`Role select element not found for User ID: ${userid}`);
+        return;
+    }
+
+    const newRole = roleSelect.value;
+    console.log(`New Role for User ID ${userid}: ${newRole}`);
+
+    fetch('/api/update-user-role', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userid, newRole }),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Role updated successfully for User ID: ${userid}`);
+                alert(`User role updated successfully for User ID: ${userid}.`);
+            } else {
+                console.error('Error updating user role.');
+                alert('Error updating user role.');
+            }
+        })
+        .catch(error => console.error('Error updating user role:', error));
+    }
+
+
+    </script>
+</body>
+</html>
