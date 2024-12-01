@@ -74,7 +74,7 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
 
-    const defaultRole = 'vendor'; // Default role is 'vendor'
+    const defaultRole = 'vendor';
 
     const query = `insert into userinfo (username, email, userrole, userpassword) values (?, ?, ?, ?)`;
     db.query(query, [username, email, defaultRole, password], (err, result) => {
@@ -393,7 +393,6 @@ app.post('/api/create-purchase-order', (req, res) => {
         return res.status(400).send('All fields are required.');
     }
 
-    // Check if the purchase order is within the budget
     const query = `select allocatedamount, spentamount from budget where departmentid = ?`;
     db.query(query, [departmentid], (err, results) => {
         if (err) {
@@ -408,7 +407,6 @@ app.post('/api/create-purchase-order', (req, res) => {
         const { allocatedamount, spentamount } = results[0];
         const newSpent = spentamount + parseFloat(amount);
 
-        // Ensure the new spent amount does not exceed the allocated budget
         if (newSpent > allocatedamount) {
             return res.status(400).send('Purchase order exceeds allocated budget.');
         }
@@ -424,7 +422,6 @@ app.post('/api/create-purchase-order', (req, res) => {
                 return res.status(500).send('Error creating purchase order.');
             }
 
-            // Update the department's spent amount in the budget
             const updateQuery = `
                 update budget set spentamount = ? where departmentid = ?
             `;

@@ -34,7 +34,7 @@
                 feedback: formData.get('feedback')
             };
 
-            // Send POST request to update performance
+            // Send POST update performance
             fetch('/api/vendor-performance', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert('Performance updated successfully!');
-                        window.location.href = '/vendors'; // Redirect to vendor list page
+                        window.location.href = '/vendors';
                     } else {
                         alert('Error updating performance.');
                     }

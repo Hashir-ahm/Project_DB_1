@@ -21,11 +21,9 @@
                 </tr>
             </thead>
             <tbody id="budget-table">
-                <!-- Dynamic Data -->
             </tbody>
         </table>
         
-        <!-- Add Budget Section -->
         <section id="add-budget">
             <h2>Add New Budget</h2>
             <form id="add-budget-form">
@@ -49,7 +47,7 @@
                 .then(response => response.json())
                 .then(budgets => {
                     const budgetTable = document.getElementById('budget-table');
-                    budgetTable.innerHTML = ''; // Clear table before adding data
+                    budgetTable.innerHTML = '';
 
                     budgets.forEach(budget => {
                         const row = document.createElement('tr');
@@ -81,7 +79,7 @@
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('add-budget-status').innerText = data;
-                    fetchBudgets(); // Refresh the budget list
+                    fetchBudgets();
                 })
                 .catch(error => console.error('Error adding budget:', error));
         });

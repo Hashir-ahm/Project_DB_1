@@ -44,7 +44,6 @@
             const quantity = document.getElementById('quantity').value;
             const amount = document.getElementById('amount').value;
 
-            // Send a POST request to create a new purchase order
             fetch('/api/create-purchase-order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -53,7 +52,6 @@
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('create-po-status').innerText = data;
-                    // Optionally redirect or reset the form after creation
                 })
                 .catch(error => console.error('Error creating purchase order:', error));
         });
