@@ -52,6 +52,7 @@ create table budget (
     foreign key (departmentid) references department(departmentid) on delete cascade
 );
 
+
 -- 6. performance table
 create table performance (
     performanceid int auto_increment primary key,

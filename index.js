@@ -438,7 +438,7 @@ app.post('/api/create-purchase-order', (req, res) => {
 
 // Route to fetch all purchase orders
 app.get('/api/purchase-orders', (req, res) => {
-    const query = `SELECT * FROM purchaseorder`;
+    const query = `select * from purchaseorder`;
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching purchase orders:', err);
